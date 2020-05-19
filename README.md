@@ -1,7 +1,7 @@
 py3rhel
 =========
 
-This role installs Python 3 on Red Hat Enterprise Linux systems, install pip3 (latest version) with relative dependencies.
+This role installs Python 3 on Red Hat Enterprise Linux systems and installs pip3 (latest version) with relative dependencies.
 
 Since the coming of RHEL8 (App Stream) the bloatware RHSCL repos are getting obsolete. See [#2353081](https://access.redhat.com/solutions/2353081) for more infos.
 

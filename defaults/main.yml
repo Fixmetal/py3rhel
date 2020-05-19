@@ -1,0 +1,10 @@
+---
+py3rhel_delete_pip2: False
+py3rhel_install_devel: False
+py3rhel_python_pkg_name: python3
+py3rhel_python_version: python36
+py3rhel_python_rhscl_pkg_name: rh-{{ py3rhel_python_version }}
+py3rhel_rhscl6_repository: rhel-server-rhscl-6-rpms
+py3rhel_rhscl7_repository: rhel-server-rhscl-7-rpms
+py3rhel_extras_repository: rhel-7-server-extras-rpms
+py3rhel_scl_enabler: /etc/profile.d/enable_rhscl_python.sh

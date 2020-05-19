@@ -1,0 +1,10 @@
+# System Files
+.DS_Store
+._DS_Store
+Thumbs.db
+desktop.ini
+
+# Junk
+*.pyc
+.idea
+.retry

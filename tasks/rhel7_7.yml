@@ -1,0 +1,34 @@
+---
+- name: Install python3 base repos + pip ansible module requirements (RHEL >= 7.7 - https://access.redhat.com/solutions/2353081)
+  yum:
+    name:
+      - "{{ py3rhel_python_pkg_name }}"
+      - "{{ py3rhel_python_pkg_name }}-pip"
+      - "{{ py3rhel_python_pkg_name }}-setuptools"
+      - python-virtualenv
+    state: installed
+
+- name: Install package from {{ py3rhel_extras_repository }}
+  yum:
+    name:
+      - "{{  py3rhel_python_pkg_name }}-devel"
+    enablerepo: "{{ py3rhel_extras_repository }}"
+    state: present
+  when: py3rhel_install_devel|bool == True
+
+- name: Remove old RHEL<7.6 python3 installation (in case of updated RHEL)
+  yum:
+    name:
+      - "{{ py3rhel_python_rhscl_pkg_name }}"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-devel"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-pip"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-setuptools"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-virtualenv"
+    state: absent
+
+- name: Upgrade pip3 and setuptools
+  pip:
+    name: pip
+    state: latest
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

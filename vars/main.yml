@@ -1,0 +1,3 @@
+---
+# vars file for py3rhel
+py3rhel_python_interpreter_script: /usr/local/bin/ansible_python_interpreter.sh

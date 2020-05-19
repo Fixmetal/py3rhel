@@ -1,0 +1,45 @@
+---
+- name: Enable {{ py3rhel_rhscl7_repository }} repository
+  rhsm_repository:
+    name: "{{ py3rhel_rhscl6_repository }}"
+    state: enabled
+
+- name: Install {{ py3rhel_python_version }} from RHSCL + pip ansible module requirements
+  yum:
+    name:
+      - "{{ py3rhel_python_rhscl_pkg_name }}"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-pip"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-setuptools"
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-virtualenv"
+    state: installed
+
+- name: Install package from {{ py3rhel_extras_repository }}
+  yum:
+    name:
+      - "{{ py3rhel_python_rhscl_pkg_name }}-python-devel"
+    enablerepo: "{{ py3rhel_extras_repository }}"
+    state: present
+  when: py3rhel_install_devel|bool
+
+- name: Keep always enabled {{ py3rhel_python_rhscl_pkg_name }} package managed host side
+  template:
+    src: enable_rhscl_python.j2
+    dest: "{{ py3rhel_scl_enabler }}"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Templating ansible interpreter with {{ py3rhel_python_rhscl_pkg_name }} version
+  template:
+    src: ansible_python_interpreter.j2
+    dest: "{{ py3rhel_python_interpreter_script }}"
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Upgrade pip3 and setuptools
+  pip:
+    name: pip
+    state: latest
+  vars:
+    ansible_python_interpreter: "{{ py3rhel_python_interpreter_script }}"

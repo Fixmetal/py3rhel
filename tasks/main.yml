@@ -1,0 +1,35 @@
+---
+# tasks file for py3rhel
+- name: Check if pip2 is present
+  shell: pip --version
+  register: py3rhel_pip_is_installed
+  changed_when: false
+  ignore_errors: true
+
+- name: Delete pip2 if present
+  pip:
+    name: pip
+    state: absent
+  when:
+    - py3rhel_delete_pip2|bool == True
+    - py3rhel_pip_is_installed.rc == 0
+    - py3rhel_pip_is_installed.stdout.find('python 2.7') != -1
+
+- name: Import task for RHEL>=7.7
+  import_tasks: rhel7_7.yml
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_version'] >= "7.7"
+
+- name: Import task for RHEL<7.7
+  import_tasks: rhel7_6.yml
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_major_version']|int == 7
+    - ansible_facts['distribution_version'] < "7.7"
+
+- name: Import task for RHEL6
+  import_tasks: rhel6.yml
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_major_version']|int == 6

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+. /opt/rh/{{ py3rhel_python_rhscl_pkg_name }}/enable
+. /opt/python-venv/bin/activate
+exec python "$@"

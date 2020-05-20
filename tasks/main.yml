@@ -6,7 +6,7 @@
   changed_when: false
   ignore_errors: true
 
-- name: Delete pip2 if present
+- name: Delete pip2 if present (and py3rhel_delete_pip2 overridden to True value)
   pip:
     name: pip
     state: absent

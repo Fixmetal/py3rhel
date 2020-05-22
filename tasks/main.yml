@@ -1,5 +1,11 @@
 ---
 # tasks file for py3rhel
+- name: Check if OS is supported
+  fail:
+    msg: "OS not supported"
+  when: ansible_facts['distribution'] != "RedHat" or
+        (ansible_facts['distribution'] == "RedHat" and ansible_facts['distribution_major_version']|int < 6)
+
 - name: Check if pip2 is present
   shell: pip --version
   register: py3rhel_pip_is_installed

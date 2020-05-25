@@ -12,6 +12,11 @@
   changed_when: false
   ignore_errors: true
 
+- name: Install libselinux-python3
+  yum:
+    name: libselinux-python3
+    state: installed
+
 - name: Delete pip2 if present (and py3rhel_delete_pip2 overridden to True value)
   pip:
     name: pip
